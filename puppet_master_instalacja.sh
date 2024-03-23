@@ -42,9 +42,35 @@ puppetserver ca setup
 systemctl start puppetserver
 puppet agent --test 
 
-Restart Server 
+#!/bin/bash
 
-# Weryfikacja Instalacji Puppet Server
+# Adres IP
+IP_ADDRESS="192.168.1.109"
 
-puppet --version
-sudo systemctl status puppetserver
+# Maska podsieci
+SUBNET_MASK="24"
+
+# Brama domyślna
+GATEWAY="192.168.1.1"
+
+# Edycja pliku konfiguracyjnego netplan
+NETPLAN_CONFIG_FILE="/etc/netplan/01-netcfg.yaml"
+
+# Tworzenie konfiguracji netplan
+echo "network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    eth0:
+      dhcp4: no
+      addresses: [$IP_ADDRESS/$SUBNET_MASK]
+      gateway4: $GATEWAY
+" | sudo tee $NETPLAN_CONFIG_FILE > /dev/null
+
+# Aplikowanie nowej konfiguracji netplan
+sudo netplan apply
+
+
+/usr/sbin/reboot now
+
+
