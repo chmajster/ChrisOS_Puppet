@@ -10,5 +10,5 @@ wget https://raw.githubusercontent.com/chmajster/ChrisOS_Puppet/main/puppet_mast
 Puppet Agent Linux  :
 ```
 wget https://raw.githubusercontent.com/chmajster/ChrisOS_Puppet/main/puppet_agent_linux.sh 
-/usr/bin/sudo /usr/bin/bash ./puppet_master_instalacja.sh
+/usr/bin/sudo /usr/bin/bash ./puppet_agent_linux.sh 
 ```
