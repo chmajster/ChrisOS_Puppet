@@ -70,7 +70,7 @@ echo "network:
 # Aplikowanie nowej konfiguracji netplan
 sudo netplan apply
 
-
-/usr/sbin/reboot now
+echo "Reboot is required"
+# /usr/sbin/reboot now
 
 
