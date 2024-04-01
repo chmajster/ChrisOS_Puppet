@@ -1,18 +1,25 @@
 #!/bin/bash
+if [ $(id -u) -eq 0 ]; then
+  echo "You are logged in as root."
+  $SUDO=""
+else
+  echo "You are not logged in as root."
+  $SUDO="sudo"
+fi
 
 # Krok 1: Pobieranie i Instalacja Puppet Server
 echo "puppetmaster.local" > /etc/hostname
 echo "Please reboot your VM for changes to take effect."
 read -p "Press Enter to continue after rebooting..."
 
-sudo wget https://apt.puppet.com/puppet7-release-jammy.deb
-sudo dpkg -i puppet7-release-jammy.deb
-sudo apt-get update
-sudo apt-get install -y puppetserver
-sudo systemctl enable puppetserver
+$SUDO wget https://apt.puppet.com/puppet7-release-jammy.deb
+$SUDO dpkg -i puppet7-release-jammy.deb
+$SUDO apt-get update
+$SUDO apt-get install -y puppetserver
+$SUDO systemctl enable puppetserver
 
 # Konfiguracja Puppet Mastera : /etc/puppetlabs/puppet/puppet.conf
-sudo tee /etc/puppetlabs/puppet/puppet.conf > /dev/null <<EOF
+$SUDO tee /etc/puppetlabs/puppet/puppet.conf > /dev/null <<EOF
 [server]
 vardir = /opt/puppetlabs/server/data/puppetserver
 logdir = /var/log/puppetlabs/puppetserver
@@ -65,12 +72,15 @@ echo "network:
       dhcp4: no
       addresses: [$IP_ADDRESS/$SUBNET_MASK]
       gateway4: $GATEWAY
-" | sudo tee $NETPLAN_CONFIG_FILE > /dev/null
+" | $SUDO tee $NETPLAN_CONFIG_FILE > /dev/null
 
 # Aplikowanie nowej konfiguracji netplan
-sudo netplan apply
+$SUDO netplan apply
 
+
+$SUDO apt-get update
 echo "Reboot is required"
 # /usr/sbin/reboot now
 
+$SUDO apt install git vim -y
 
