@@ -45,4 +45,11 @@ puppet agent --test
 
 
 # Krok 1: Pobieranie i Instalacja Puppet Server Agent
-echo "192.168.1.109 srl000" | sudo tee -a /etc/hosts
+echo "192.168.1.100 srl000"  >> /etc/hosts
+wget https://apt.puppet.com/puppet8-release-focal.deb
+dpkg -i puppet8-release-focal.deb
+
+apt-get update
+apt-get install puppet-agent
+systemctl enable puppetserver
+puppet agent -test --server srl000 --ca_server srl000 
