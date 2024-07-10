@@ -1,5 +1,5 @@
 #!/bin/bash
-# Krok 1: Pobieranie i Instalacja Puppet Server
+# Krok 1: Pobieranie i Instalacja Puppet Server Master
 
 echo "srl000" > /etc/hostname
 
@@ -42,3 +42,7 @@ rm -rf /etc/puppetlabs/puppetserver/ca/*
 puppetserver ca setup
 systemctl start puppetserver
 puppet agent --test 
+
+
+# Krok 1: Pobieranie i Instalacja Puppet Server Agent
+echo "192.168.1.109 srl000" | sudo tee -a /etc/hosts
